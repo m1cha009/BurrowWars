@@ -19,6 +19,7 @@ namespace BurrowWars
 		private bool _isWantToEnterBurrow;
 		
 		private Rigidbody2D _rigidbody2D;
+		private bool _isGrounded;
 
 		private void Start()
 		{
@@ -52,6 +53,21 @@ namespace BurrowWars
 				_mainGroundPlatformEffector2D.surfaceArc = 180;
 			}
 			
+			GroundMovement();
+		}
+		
+		public void SetMovement(Vector2 moveVector)
+		{
+			_moveVector = moveVector;
+		}
+
+		public void SetBurrowEnter(bool isWantToEnterBurrow)
+		{
+			_isWantToEnterBurrow = isWantToEnterBurrow;
+		}
+
+		private void GroundMovement()
+		{
 			var hit = Physics2D.Raycast(transform.position, Vector2.down, _checkDistance, _groundLayerMask);
 			
 			if (hit.collider != null)
@@ -65,18 +81,8 @@ namespace BurrowWars
 			
 				_velocity = slopeDirection * (_speed * Mathf.Abs(_moveVector.x));
 			}
-		
+			
 			transform.position += (Vector3)_velocity * Time.deltaTime;
-		}
-		
-		public void SetMovement(Vector2 moveVector)
-		{
-			_moveVector = moveVector;
-		}
-
-		public void SetBurrowEnter(bool isWantToEnterBurrow)
-		{
-			_isWantToEnterBurrow = isWantToEnterBurrow;
 		}
 	}
 }
